@@ -1,25 +1,181 @@
-<!DOCTYPE html>
+questions = [
+    {
+        "question": "What does HTML stand for?",
+        "options": ["Hyper Text Markup Language", "High Text Markup Language", "Hyper Tabular Markup Language", "None of these"],
+        "answer": "Hyper Text Markup Language"
+    },
+    {
+        "question": "Which HTML tag is used to define an internal style sheet?",
+        "options": ["<script>", "<style>", "<css>", "<link>"],
+        "answer": "<style>"
+    },
+    {
+        "question": "Which JavaScript keyword is used to declare a variable?",
+        "options": ["var", "int", "let", "Both var and let"],
+        "answer": "Both var and let"
+    },
+    {
+        "question": "Which HTML tag is used to create a hyperlink?",
+        "options": ["<a>", "<link>", "<href>", "<hyperlink>"],
+        "answer": "<a>"
+    },
+    {
+        "question": "How do you write 'Hello World' in an alert box in JavaScript?",
+        "options": ["msg('Hello World');", "alertBox('Hello World');", "alert('Hello World');", "msgBox('Hello World');"],
+        "answer": "alert('Hello World');"
+    },
+    {
+        "question": "Which company developed JavaScript?",
+        "options": ["Microsoft", "Netscape", "Google", "Sun Microsystems"],
+        "answer": "Netscape"
+    },
+    {
+        "question": "Which attribute is used in HTML to name elements uniquely?",
+        "options": ["class", "id", "name", "key"],
+        "answer": "id"
+    },
+    {
+        "question": "Inside which HTML element do we put the JavaScript?",
+        "options": ["<js>", "<script>", "<javascript>", "<code>"],
+        "answer": "<script>"
+    },
+    {
+        "question": "What is the correct syntax for referring to an external script called 'app.js'?",
+        "options": ["<script href='app.js'>", "<script name='app.js'>", "<script src='app.js'>", "<script file='app.js'>"],
+        "answer": "<script src='app.js'>"
+    },
+    {
+        "question": "Which operator is used to assign a value to a variable in JavaScript?",
+        "options": ["=", "==", "===", "=>"],
+        "answer": "="
+    }
+]
+
+html_content = """<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Study Chatbot</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    #chatbox { border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: auto; }
-    .message { margin: 10px 0; }
-    .user { color: blue; }
-    .bot { color: green; }
-    input[type="text"] { width: 80%; padding: 5px; margin-top: 10px; }
-    button { padding: 6px 12px; }
-  </style>
+    <meta charset="UTF-8">
+    <title>HTML & JavaScript MCQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 30px;
+            max-width: 800px;
+            margin: auto;
+        }
+        h2 {
+            color: #333;
+        }
+        .question {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        .question p {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .options label {
+            display: block;
+            padding: 10px 15px;
+            border: 2px solid #ccc;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: 0.3s;
+            position: relative;
+            padding-left: 40px;
+        }
+        .options input[type="radio"] {
+            display: none;
+        }
+        .options label::before {
+            content: "";
+            position: absolute;
+            left: 10px;
+            top: 12px;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #888;
+            border-radius: 50%;
+            background-color: white;
+        }
+        .options input[type="radio"]:checked + label::before {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+        .options input[type="radio"]:checked + label {
+            border-color: #4CAF50;
+            background-color: #f0fff0;
+        }
+        #submitBtn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
-  <h2>Study Chatbot</h2>
-  <div id="chatbox"></div>
-  <input type="text" id="userInput" placeholder="Ask me anything about studying..." />
-  <button onclick="sendMessage()">Send</button>
+    <h2>HTML & JavaScript MCQ Quiz</h2>
+    <form id="quizForm">
+"""
 
-  <script src="chat.js"></script>
+# Add questions to the HTML content
+for i, q in enumerate(questions):
+    html_content += f'<div class="question">\n'
+    html_content += f'  <p>{i+1}. {q["question"]}</p>\n'
+    html_content += f'  <div class="options">\n'
+    for j, opt in enumerate(q["options"]):
+        input_id = f"q{i}_opt{j}"
+        html_content += f'    <input type="radio" id="{input_id}" name="q{i}" value="{opt}">\n'
+        html_content += f'    <label for="{input_id}">{opt}</label>\n'
+    html_content += f'  </div>\n'
+    html_content += f'</div>\n'
+
+# Submit button and result display
+html_content += """
+    <button type="button" id="submitBtn" onclick="checkAnswers()">Submit</button>
+    <p id="result"></p>
+    </form>
+
+    <script>
+        function checkAnswers() {
+            const correctAnswers = ["""
+
+# Add correct answers in JS
+html_content += ", ".join([f'"{q["answer"]}"' for q in questions])
+html_content += """];
+            let score = 0;
+            for (let i = 0; i < correctAnswers.length; i++) {
+                const options = document.getElementsByName('q' + i);
+                for (let opt of options) {
+                    if (opt.checked && opt.value === correctAnswers[i]) {
+                        score++;
+                    }
+                }
+            }
+            document.getElementById("result").innerText = "Your score: " + score + " out of " + correctAnswers.length;
+        }
+    </script>
 </body>
 </html>
+"""
+
+# Save the file
+with open("html_js_mcq_buttons.html", "w", encoding="utf-8") as file:
+    file.write(html_content)
+
+print("Quiz HTML file with buttons and round ticks generated: html_js_mcq_buttons.html")
